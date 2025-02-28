@@ -1,7 +1,4 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -11,22 +8,21 @@
     </ion-toolbar>
   </ion-header>
   <div class="flex-center">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Reciclica</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-card backgroundcolor="light">
-        <ion-input placeholder="Email"></ion-input>
+    <ion-card>
+      <ion-card-header class="ion-text-center" color="success">
+        <ion-card-title>Reciclica</ion-card-title>
+      </ion-card-header>
+      <div class="ion-padding">
+         <ion-card color="light">
+          <ion-input placeholder="Email" class="ion-padding"></ion-input>
+        </ion-card>
+        <ion-card color="light">
+          <ion-input placeholder="Password" type="Password" class="ion-padding"></ion-input>
+        </ion-card>
+        <ion-button expand="block" fill="clear" color="dark" routerLink="/home">Forgot email/password</ion-button>
+        <ion-button expand="block" fill="solid" color="success" routerLink="/home">Login</ion-button>
+        <ion-button expand="block" fill="clear" color="success" routerLink="/register">Register</ion-button>  
+      </div>      
       </ion-card>
-    
-      <ion-input placeholder="Password" inputmode="Password"></ion-input>
-    </ion-card-content>
-    <hr>
-    <div class="ion-padding">
-      <ion-button expand="block" fill="solid" color="success" routerLink="/home">Login</ion-button>
-      <ion-button expand="block" fill="clear" color="success" routerLink="/register">Register</ion-button>
-    </div>
-  </ion-card>
 </div>
 </ion-content>

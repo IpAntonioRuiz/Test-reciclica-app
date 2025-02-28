@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header color="success">
+      <ion-card-title>What do you want to do with the recyclable waste?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-radio-group>
+        <ion-item>
+          <ion-label>i want to buy it</ion-label>
+          <ion-radio value="CLIENT" slot="start"></ion-radio>
+        </ion-item>
+        <ion-item>
+          <ion-label>i want to sell it</ion-label>
+          <ion-radio value="PARTNER" slot="start"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+    </ion-card-content>
+  </ion-card>
+  <div>
+    <ion-card>
+      <ion-card-header color="success">
+        <ion-card-title>Contact</ion-card-title>
+      </ion-card-header>
+      <div class="ion-padding">
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Name" ></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Email"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Password" type="password"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Confirm Password" type="password"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Phone Number" type="Number"></ion-input>
+        </ion-card>
+      </div>
+    </ion-card>
+  </div>
+  <div>
+    <ion-card>
+      <ion-card-header color="success">
+        <ion-card-title>Address</ion-card-title>
+      </ion-card-header>
+      <div class="ion-padding">
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Address"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Number"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Neighborhood" ></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Complement"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="Zip Code" type="Number"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="State"></ion-input>
+        </ion-card>
+        <ion-card color="light" class="ion-padding-input">
+          <ion-input placeholder="City"></ion-input>
+        </ion-card>
+      </div>
+    </ion-card>
+  </div>
+  <ion-button expand="block" fill="solid" color="success" routerLink="/home">Register</ion-button>
+  <ion-button expand="block" fill="clear" color="success" routerLink="/login">Login</ion-button>
+</ion-content>
