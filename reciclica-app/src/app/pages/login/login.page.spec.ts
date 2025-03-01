@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login.page';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from 'src/app/app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -12,7 +13,8 @@ describe('LoginPage', () => {
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    AppRoutingModule;
+    AppRoutingModule
+    ReactiveFormsModule
 
     router = TestBed.inject(Router);
   });
@@ -20,6 +22,13 @@ describe('LoginPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should create form on init', () => {
+    component.ngOnInit();
+
+    expect(component.form).not.toBeUndefined();
+});
+
 
   it('shold go to home page on login', () => {
     spyOn(router, 'navigate');
