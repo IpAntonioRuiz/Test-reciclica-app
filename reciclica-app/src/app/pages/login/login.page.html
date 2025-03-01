@@ -19,9 +19,9 @@
         <ion-card color="light">
           <ion-input placeholder="Password" type="Password" class="ion-padding"></ion-input>
         </ion-card>
-        <ion-button expand="block" fill="clear" color="dark" routerLink="/home">Forgot email/password</ion-button>
-        <ion-button expand="block" fill="solid" color="success" routerLink="/home">Login</ion-button>
-        <ion-button expand="block" fill="clear" color="success" routerLink="/register">Register</ion-button>  
+        <ion-button expand="block" fill="clear" color="dark">Forgot email/password</ion-button>
+        <ion-button expand="block" fill="solid" color="success" (click)="login()">Login</ion-button>
+        <ion-button expand="block" fill="clear" color="success" (click)="register()">Register</ion-button>  
       </div>      
       </ion-card>
 </div>

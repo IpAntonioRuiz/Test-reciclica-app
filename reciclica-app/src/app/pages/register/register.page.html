@@ -1,4 +1,10 @@
-<ion-header [translucent]="true">
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-buttons slot="start">
+      <ion-back-button title=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -73,6 +79,5 @@
       </div>
     </ion-card>
   </div>
-  <ion-button expand="block" fill="solid" color="success" routerLink="/home">Register</ion-button>
-  <ion-button expand="block" fill="clear" color="success" routerLink="/login">Login</ion-button>
+  <ion-button expand="block" fill="solid" color="success" (click)="register()">REGISTER</ion-button>
 </ion-content>
