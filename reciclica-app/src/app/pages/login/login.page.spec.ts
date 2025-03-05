@@ -7,11 +7,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { loadingReducer } from 'src/store/loading/loading.reducers';
 import { loginReducer } from 'src/store/login/login.reducers';
 import { AppState } from 'src/store/AppState';
-import { recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from 'src/store/login/login.actions';
+import { login, loginFail, loginSuccess, recoverPassword, recoverPasswordFail, recoverPasswordSuccess } from 'src/store/login/login.actions';
 import { ToastController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { of, throwError } from 'rxjs';
 import { User } from 'src/app/model/user/User';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 describe('LoginPage', () => {
   let component: LoginPage;
@@ -20,9 +20,22 @@ describe('LoginPage', () => {
   let page: any;
   let store: Store<AppState>;
   let toastController:  ToastController;
-  let authService: AuthService;
 
-  beforeEach(() => {    
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [LoginPage],
+      imports: [
+        ReactiveFormsModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('loading', loadingReducer),
+        StoreModule.forFeature('login', loginReducer),
+        AngularFireModule.initializeApp(environment.firebaseConfig)
+      ],
+      providers: [
+        { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } },
+        { provide: ToastController, useValue: { create: jasmine.createSpy('create').and.returnValue(Promise.resolve({ present: () => {} })) } }
+      ]
+    }).compileComponents();
     
     fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
@@ -32,12 +45,12 @@ describe('LoginPage', () => {
     StoreModule.forRoot([]);
     StoreModule.forFeature("loading", loadingReducer);
     StoreModule.forFeature("login", loginReducer);
+    AngularFireModule.initializeApp(environment.firebaseConfig);
 
 
     store = TestBed.inject(Store);
     router = TestBed.inject(Router);
     toastController = TestBed.inject(ToastController);
-    authService = TestBed.inject(AuthService);
 
     page = fixture.debugElement.nativeElement;
   });
@@ -66,21 +79,16 @@ describe('LoginPage', () => {
     store.select('login').subscribe(loginState => {
       expect(loginState.isRecoveringPassword).toBeTruthy();
     })
-  });
-
-  it('should show loading when recovering password',() => {
-    fixture.detectChanges();
-    store.dispatch(recoverPassword());
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeTruthy();
     })
   });
 
-  it('should hide loading and show success message when has recovered the password', () => {
+  it('given user is recovering password, when success, then hide loading and show success message', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
 
     fixture.detectChanges();
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: "any@email.com"}));
     store.dispatch(recoverPasswordSuccess());
 
     store.select('loading').subscribe(loadingState => {
@@ -89,11 +97,11 @@ describe('LoginPage', () => {
     expect(toastController.create).toHaveBeenCalledTimes(1);
   });
 
-  it('should hide loading and show error message when error on recovered the password', () => {
+  it('given user is recovering password, when fail, then hide loading and show error message', () => {
     spyOn(toastController, 'create');
 
     fixture.detectChanges();
-    store.dispatch(recoverPassword());
+    store.dispatch(recoverPassword({email: "any@email.com"}));
     store.dispatch(recoverPasswordFail({error: "message"}));
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
@@ -106,6 +114,7 @@ describe('LoginPage', () => {
     component.form.get('email')!.setValue('valid@email.com');
     component.form.get('password')!.setValue('anyPassword');
     page.querySelector('#loginButton').click();
+
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeTruthy();
     })
@@ -114,31 +123,29 @@ describe('LoginPage', () => {
     })
   })
 
-  it('should hide loading and send user to the home page when user has logged in', () => {
+  it('given user us logging in, when success, then hide loading and send user to home page', () => {
     spyOn(router, 'navigate')
-    spyOn(authService, 'login').and.returnValue(of(new User()));
 
     fixture.detectChanges();
-    component.form.get('email')?.setValue('valid@email.com');
-    component.form.get('password')?.setValue('anyPassword');
-    page.querySelector('#loginButton').click();
+    store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
+    store.dispatch(loginSuccess({user: new User()}));
+
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
     })
     store.select('login').subscribe(loginState => {
-       expect(loginState.isLoggingIn).toBeFalsy();
+       expect(loginState.isLoggedIn).toBeFalsy();
     })
     expect(router.navigate).toHaveBeenCalledWith(['home']);
   })
 
-  it('should hide loading and show error when user couldnt logged in', () => {
-    spyOn(authService, 'login').and.returnValue(throwError({message: 'error'}));
+  it('guven user us logging in, when error, then hide loading and show error message', () => {
     spyOn(toastController, 'create').and.returnValue(<any> Promise.resolve({present: () => {}}));
 
     fixture.detectChanges();
-    component.form.get('email')?.setValue('error@email.com');
-    component.form.get('password')?.setValue('anyPassword');
-    page.querySelector('#loginButton').click();
+    store.dispatch(login({email: "valid@email.com", password: "anyPassword"}));
+    store.dispatch(loginFail({error: {message: 'error message'}}));
+
     store.select('loading').subscribe(loadingState => {
       expect(loadingState.show).toBeFalsy();
     })
