@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user/User';
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() { }
+  constructor(private auth: AngularFireAuthModule) { }
 
   recoverEmailPassword(email: string) : Observable<void>{
     return new Observable<void>(observer => {
